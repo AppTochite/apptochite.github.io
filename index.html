@@ -216,6 +216,11 @@
   .aud .card p { margin-top: 4px; }
 
   /* ───── Install steps ───── */
+  .platforms .card h3 { margin-bottom: 14px; }
+  .platforms .step::before { flex: 0 0 26px; height: 26px; font-size: 13px; }
+  .platforms .step p { padding-top: 1px; font-size: 13.5px; }
+  .install-note { color: var(--text-300); font-size: 13.5px; margin-top: 20px; }
+  .share-ico { color: var(--accent-light); }
   .steps { counter-reset: step; display: grid; gap: 14px; max-width: 620px; }
   .step {
     display: flex;
@@ -376,12 +381,34 @@
 
   <section>
     <div class="wrap">
-      <h2>Установка на Android</h2>
-      <div class="steps">
-        <div class="step"><p>Откройте <a href="https://fiscalagent.github.io/AppTochite/">приложение</a> в браузере <b>Chrome</b> (не во встроенном браузере Telegram).</p></div>
-        <div class="step"><p>В меню Chrome (⋮) выберите <b>«Добавить на главный экран»</b> → «Установить».</p></div>
-        <div class="step"><p>Готово — AppTochite запускается с ярлыка как обычное приложение и работает офлайн.</p></div>
+      <h2>Установка</h2>
+      <div class="grid platforms">
+        <div class="card">
+          <h3>🤖 Android</h3>
+          <div class="steps">
+            <div class="step"><p>Откройте <a href="https://fiscalagent.github.io/AppTochite/">приложение</a> в браузере <b>Chrome</b> (не во встроенном браузере Telegram).</p></div>
+            <div class="step"><p>В меню Chrome (⋮) выберите <b>«Добавить на главный экран»</b> → «Установить».</p></div>
+            <div class="step"><p>Готово — AppTochite запускается с ярлыка и работает офлайн.</p></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>🍏 iPhone и iPad</h3>
+          <div class="steps">
+            <div class="step"><p>Откройте <a href="https://fiscalagent.github.io/AppTochite/">приложение</a> в <b>Safari</b> — другие браузеры на iOS устанавливать не умеют.</p></div>
+            <div class="step"><p>Нажмите кнопку <b>«Поделиться»</b> <span class="share-ico">⎙</span> → <b>«На экран “Домой”»</b>.</p></div>
+            <div class="step"><p>Готово — значок появится на домашнем экране.</p></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>💻 Компьютер</h3>
+          <div class="steps">
+            <div class="step"><p>Откройте <a href="https://fiscalagent.github.io/AppTochite/">приложение</a> в <b>Chrome</b> или <b>Edge</b>.</p></div>
+            <div class="step"><p>Нажмите значок <b>установки</b> в адресной строке (или меню → «Установить AppTochite»).</p></div>
+            <div class="step"><p>Готово — приложение откроется в своём окне, как обычная программа.</p></div>
+          </div>
+        </div>
       </div>
+      <p class="install-note">На любой платформе можно пользоваться и просто из браузера, без установки — это то же самое приложение.</p>
     </div>
   </section>
 </main>
