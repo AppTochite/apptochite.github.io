@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AppTochite — журнал профессионального заточника</title>
+<meta name="description" content="Бесплатное приложение для заточников ножей: клиенты, статусы, цены, фото «до/после», голосовой ввод, справочники сталей и камней. Работает офлайн на Android.">
+<meta property="og:title" content="AppTochite — журнал профессионального заточника">
+<meta property="og:description" content="Клиенты, статусы, фото «до/после», голосовой ввод, справочники сталей и камней. Бесплатно, работает офлайн.">
+<meta property="og:image" content="https://fiscalagent.github.io/AppTochite/pwa-512x512.png">
+<meta property="og:url" content="https://apptochite.github.io/">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Golos+Text:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-100: #0F0F11;
+    --bg-200: #16161A;
+    --bg-300: #1E1E24;
+    --bg-400: #27272F;
+    --border-100: #2E2E38;
+    --border-200: #3D3D4A;
+    --text-100: #F2F2F5;
+    --text-200: #B8B8C8;
+    --text-300: #72728A;
+    --accent: #4A90D9;
+    --accent-light: #6AAAE8;
+    --accent-dim: #1E3A5F;
+    --status-accepted: #4A90D9;
+    --status-accepted-bg: #1A2E45;
+    --status-done: #3DB87A;
+    --status-done-bg: #0F2E1E;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+    --font-display: 'Bebas Neue', 'Arial Narrow', sans-serif;
+    --font-body: 'Golos Text', 'Segoe UI', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg-100);
+    color: var(--text-100);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--accent-light); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+  /* ───── Hero ───── */
+  .hero {
+    padding: 56px 0 48px;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(74, 144, 217, 0.14), transparent),
+      var(--bg-100);
+    border-bottom: 1px solid var(--border-100);
+  }
+  .hero-inner {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-text { flex: 1 1 380px; max-width: 520px; }
+  .hero-logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .hero-logo img { width: 64px; height: 64px; border-radius: 16px; }
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 44px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .wordmark span { color: var(--accent); }
+  h1 {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 14px;
+  }
+  .hero-sub {
+    color: var(--text-200);
+    font-size: 17px;
+    margin-bottom: 30px;
+  }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .btn {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--accent-light); text-decoration: none; }
+  .btn-ghost {
+    border: 1px solid var(--border-200);
+    color: var(--text-200);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--text-100); text-decoration: none; }
+  .hero-note { color: var(--text-300); font-size: 13px; margin-top: 14px; }
+
+  /* ───── Phone mockup ───── */
+  .phone {
+    flex: 0 0 auto;
+    width: 280px;
+    border: 1px solid var(--border-200);
+    border-radius: 32px;
+    background: var(--bg-200);
+    padding: 14px 12px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  }
+  .phone-screen {
+    background: var(--bg-100);
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid var(--border-100);
+  }
+  .phone-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--border-100);
+  }
+  .phone-header b { font-size: 15px; }
+  .phone-header .dot {
+    width: 26px; height: 26px;
+    border-radius: var(--radius-full);
+    background: var(--accent);
+    color: #fff;
+    font-size: 18px;
+    line-height: 25px;
+    text-align: center;
+  }
+  .srow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border-100);
+  }
+  .srow:last-child { border-bottom: 0; }
+  .ava {
+    width: 34px; height: 34px;
+    flex: 0 0 34px;
+    border-radius: var(--radius-full);
+    background: var(--bg-400);
+    color: var(--text-200);
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ava.self { background: var(--accent-dim); color: var(--accent-light); }
+  .srow-text { flex: 1; min-width: 0; }
+  .srow-text .name { font-size: 13.5px; font-weight: 600; }
+  .srow-text .meta { font-size: 11.5px; color: var(--text-300); }
+  .pill {
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+  }
+  .pill.acc { background: var(--status-accepted-bg); color: var(--status-accepted); }
+  .pill.done { background: var(--status-done-bg); color: var(--status-done); }
+
+  /* ───── Sections ───── */
+  section { padding: 56px 0; }
+  section + section { border-top: 1px solid var(--border-100); }
+  h2 {
+    font-family: var(--font-display);
+    font-size: 32px;
+    letter-spacing: 0.04em;
+    font-weight: 400;
+    margin-bottom: 28px;
+  }
+  h2 em { font-style: normal; color: var(--accent); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg-200);
+    border: 1px solid var(--border-100);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+  }
+  .card .ico { font-size: 26px; margin-bottom: 10px; }
+  .card h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 6px; }
+  .card p { color: var(--text-200); font-size: 14px; }
+
+  /* ───── Audience ───── */
+  .aud { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .aud .card { border-left: 3px solid var(--accent); }
+  .aud .card p { margin-top: 4px; }
+
+  /* ───── Install steps ───── */
+  .steps { counter-reset: step; display: grid; gap: 14px; max-width: 620px; }
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .step::before {
+    counter-increment: step;
+    content: counter(step);
+    flex: 0 0 34px;
+    height: 34px;
+    border-radius: var(--radius-full);
+    background: var(--accent-dim);
+    color: var(--accent-light);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .step p { color: var(--text-200); padding-top: 4px; }
+  .step b { color: var(--text-100); }
+
+  /* ───── Footer ───── */
+  footer {
+    border-top: 1px solid var(--border-100);
+    padding: 32px 0 40px;
+    color: var(--text-300);
+    font-size: 13.5px;
+  }
+  .foot-row { display: flex; gap: 24px; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+  .foot-links { display: flex; gap: 20px; flex-wrap: wrap; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 36px 0; }
+    h1 { font-size: 24px; }
+    .wordmark { font-size: 36px; }
+    section { padding: 40px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-text">
+      <div class="hero-logo">
+        <img src="favicon.svg" alt="Логотип AppTochite" width="64" height="64">
+        <div class="wordmark">App<span>Tochite</span></div>
+      </div>
+      <h1>Журнал профессионального заточника</h1>
+      <p class="hero-sub">
+        Клиенты, статусы, цены, фото «до/после», голосовой ввод и справочники
+        сталей и камней — всё в телефоне, работает без интернета.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://fiscalagent.github.io/AppTochite/">Открыть приложение</a>
+        <a class="btn btn-ghost" href="https://fiscalagent.github.io/AppTochite/guide.html">Инструкция</a>
+      </div>
+      <p class="hero-note">Бесплатно · без регистрации · данные хранятся только на вашем устройстве</p>
+    </div>
+
+    <div class="phone" aria-hidden="true">
+      <div class="phone-screen">
+        <div class="phone-header"><b>Лента заточек</b><span class="dot">+</span></div>
+        <div class="srow">
+          <div class="ava self">Я</div>
+          <div class="srow-text">
+            <div class="name">Шеф Tojiro · VG-10</div>
+            <div class="meta">угол 30° · вашита, сланец</div>
+          </div>
+          <span class="pill done">готов</span>
+        </div>
+        <div class="srow">
+          <div class="ava">МК</div>
+          <div class="srow-text">
+            <div class="name">Универсал Opinel · 95Х18</div>
+            <div class="meta">переточка · 500 ₽</div>
+          </div>
+          <span class="pill acc">принят</span>
+        </div>
+        <div class="srow">
+          <div class="ava">АС</div>
+          <div class="srow-text">
+            <div class="name">Сантоку Samura · AUS-8</div>
+            <div class="meta">фото «до» · 57 HRC</div>
+          </div>
+          <span class="pill acc">принят</span>
+        </div>
+        <div class="srow">
+          <div class="ava">МК</div>
+          <div class="srow-text">
+            <div class="name">Якут · Х12МФ</div>
+            <div class="meta">подвод линзой · 700 ₽</div>
+          </div>
+          <span class="pill done">готов</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap">
+      <h2>Всё, что нужно <em>заточнику</em></h2>
+      <div class="grid">
+        <div class="card">
+          <div class="ico">👥</div>
+          <h3>Клиенты и история</h3>
+          <p>Карточка клиента, все его ножи и заточки, статусы «принят» и «готов», цены за работу.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📷</div>
+          <h3>Фото «до» и «после»</h3>
+          <p>Снимайте кромку при приёмке и после работы. Готовый фото-отчёт отправляется клиенту в один тап.</p>
+        </div>
+        <div class="card">
+          <div class="ico">🎙️</div>
+          <h3>Голосовой ввод</h3>
+          <p>Руки в масле? Диктуйте: «нож сантоку», «сталь вг десять», «цена пятьсот» — форма заполнится сама.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📚</div>
+          <h3>Справочники</h3>
+          <p>890 ножей, 219 марок стали и 101 камень уже внутри. Свои камни — с гритностью в FEPA, JIS и микронах.</p>
+        </div>
+        <div class="card">
+          <div class="ico">📴</div>
+          <h3>Работает офлайн</h3>
+          <p>Все данные хранятся на вашем устройстве и никуда не передаются. Интернет не нужен.</p>
+        </div>
+        <div class="card">
+          <div class="ico">💾</div>
+          <h3>Бэкап и перенос</h3>
+          <p>Резервная копия в файл или на Яндекс.Диск. Перенос и слияние данных между телефоном и планшетом.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Для кого</h2>
+      <div class="aud">
+        <div class="card">
+          <h3>Заточка как бизнес</h3>
+          <p>Принимаете ножи у клиентов? Ведите учёт: кто, что, за сколько и в каком статусе.
+          Фото-отчёты повышают доверие, а история — повторные заказы.</p>
+        </div>
+        <div class="card">
+          <h3>Точу для себя</h3>
+          <p>Личный журнал заточки: какие камни и угол сработали на этой стали.
+          Возвращайтесь к удачным сетапам вместо того, чтобы вспоминать.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Установка на Android</h2>
+      <div class="steps">
+        <div class="step"><p>Откройте <a href="https://fiscalagent.github.io/AppTochite/">приложение</a> в браузере <b>Chrome</b> (не во встроенном браузере Telegram).</p></div>
+        <div class="step"><p>В меню Chrome (⋮) выберите <b>«Добавить на главный экран»</b> → «Установить».</p></div>
+        <div class="step"><p>Готово — AppTochite запускается с ярлыка как обычное приложение и работает офлайн.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <div>© 2026 AppTochite</div>
+    <div class="foot-links">
+      <a href="https://fiscalagent.github.io/AppTochite/">Приложение</a>
+      <a href="https://fiscalagent.github.io/AppTochite/guide.html">Инструкция</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
