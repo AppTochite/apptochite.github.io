@@ -1,0 +1,50 @@
+name: Sync latest APK to site
+
+# Кладёт свежий app-release.apk из релиза приложения прямо в этот репозиторий,
+# чтобы лендинг раздавал APK со своего хоста (apptochite.github.io, CDN Fastly),
+# а не с release-assets.githubusercontent.com — тот у части провайдеров РФ
+# таймаутит, и скачивание с лендинга падало.
+#
+# Файл всегда один и тот же (app-release.apk, перезапись) → на сайте не копятся
+# старые версии. Коммитим только когда APK реально изменился (новый релиз),
+# поэтому ежедневный прогон по расписанию не плодит пустых коммитов.
+#
+# Токен не нужен: пушим в СВОЙ репозиторий стандартным GITHUB_TOKEN, а релизный
+# ассет тянем с github.com (раннер GitHub достаёт его без проблем — он не в РФ).
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *' # ежедневно ~09:00 МСК — подхватывает новые релизы без ручного запуска
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-apk
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download latest APK from app release
+        run: |
+          curl -fSL --retry 5 --retry-delay 20 --retry-all-errors \
+            -o app-release.apk \
+            https://github.com/fiscalagent/AppTochite/releases/latest/download/app-release.apk
+          ls -la app-release.apk
+
+      - name: Commit if the APK changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app-release.apk
+          if git diff --cached --quiet; then
+            echo "APK не изменился — коммитить нечего."
+          else
+            git commit -m "chore: обновить app-release.apk из последнего релиза"
+            git push
+          fi
